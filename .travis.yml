@@ -7,7 +7,7 @@ node_js: node
 cache: yarn
 
 install:
-  - yarn
+  - wget https://yarnpkg.com/latest.tar.gz && tar -xf latest.tar.gz && dist/bin/yarn
 
 script:
-  - cd ./server && yarn && yarn test
+  - cd ./server && yarn install && yarn test
