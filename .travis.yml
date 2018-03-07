@@ -10,4 +10,4 @@ install:
   - yarn
 
 script:
-  - cd ./server && yarn test
+  - cd ./server && yarn && yarn test
