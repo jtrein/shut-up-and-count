@@ -1,0 +1,14 @@
+{
+  "name": "shut-up-and-count-api",
+  "version": "1.0.0",
+  "description": "Express-based API for the shut-up-and-count web app to consume.",
+  "main": "index.js",
+  "repository": "https://github.com/jtrein/shut-up-and-count/server",
+  "author": "Jeremiah Trein <jeremiahtrein@gmail.com>",
+  "license": "See LICENSE.txt in the root directory of this project.",
+  "private": true,
+  "dependencies": {
+    "express": "^4.16.2",
+    "multer": "^1.3.0"
+  }
+}
