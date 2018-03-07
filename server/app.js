@@ -1,3 +1,4 @@
-const express = require('express');
-const multer  = require('multer');
-const upload = multer({ dest: 'tmp/' });
+'use strict';
+var express = require('express');
+var multer = require('multer');
+var upload = multer({ dest: 'tmp/' });
