@@ -8,7 +8,8 @@
   "license": "See LICENSE.txt in the root directory of this project.",
   "private": true,
   "scripts": {
-    "pretest": "eslint --ignore-path .gitignore ."
+    "pretest": "eslint ./ --ext=\".js\"",
+    "test": ""
   },
   "dependencies": {
     "express": "^4.16.2",
