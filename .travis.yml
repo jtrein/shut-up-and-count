@@ -1,0 +1,13 @@
+sudo: required
+
+language: node_js
+
+node_js: node
+
+cache: yarn
+
+install:
+  - npm install -g yarn && yarn
+
+script:
+  - cd ./server && yarn install && yarn test
