@@ -1,9 +1,20 @@
 const styles = {
+  tableRow: {
+    borderBottom: '1px solid #EEE',
+  },
+  tableWrap: {
+    marginTop: 48,
+  },
   text: {
     textTransform: 'uppercase',
     fontWeight: '700',
     color: 'deeppink',
     textAlign: 'center',
+  },
+  totalWordCount: {
+    marginBottom: 24,
+    paddingBottom: 12,
+    borderBottom: '1px solid deeppink',
   },
   wrap: {
     display: 'flex',
