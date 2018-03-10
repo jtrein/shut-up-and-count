@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
 
-import { ALLOWED_MIME, MAX_FILE_SIZE } from './settings';
-import dropzoneStyles from './FileDropzone.styles';
+import { ALLOWED_MIME, MAX_FILE_SIZE } from '../settings';
+import dropzoneStyles from '../styles/FileDropzone.styles';
 
 class FileDropzone extends Component {
   constructor() {

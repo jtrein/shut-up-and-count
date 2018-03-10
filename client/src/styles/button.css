@@ -26,4 +26,5 @@ button:disabled {
   background: #ff8f00;
   opacity: .5;
   cursor: not-allowed;
+  box-shadow: none;
 }

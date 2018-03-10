@@ -6,6 +6,10 @@ const styles = {
     overflow: 'hidden',
     clip: 'rect(1px, 1px, 1px, 1px)',
   },
+  logo: {
+    width: 250,
+    maxWidth: '100%',
+  },
 };
 
 export default styles;

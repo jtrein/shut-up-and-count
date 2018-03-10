@@ -1,8 +1,4 @@
 const styles = {
-  logo: {
-    width: 250,
-    maxWidth: '100%',
-  },
   text: {
     textTransform: 'uppercase',
     fontWeight: '700',
