@@ -2,7 +2,7 @@ const fs = require('fs');
 const { IS_DEV } = require('./settings');
 
 /**
- * eachWordCount
+ * countOccurrence
  *
  * @param  {arr}      words - array of strings
  * @return {obj}      object with words as keys and occurrences as value
