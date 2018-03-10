@@ -23,8 +23,17 @@ const countOccurrence = (words) => {
   return wordCountObject;
 };
 
-    return intoObject;
-  }, {})
+/**
+ * normalizeWords
+ *
+ * Covers basic sentences where puctuation, hyphens and numbers may be mixed in.
+ * e.g. "NZD1,000" "hyphenated-so-much" "I'm".
+ *
+ * @param  {str}      wordString - string of words
+ * @return {arr}      array of matched words
+ */
+const normalizeWords = wordString => (
+  wordString.toLowerCase().match(/(([\w'])+?([0-9],[0-9])?([A-z]-[A-z])?)+/g)
 );
 
 const normalizeWords = wordString => wordString.match(/\w+/g);
