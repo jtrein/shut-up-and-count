@@ -1,4 +1,5 @@
 const path = require('path');
+const cors = require('cors');
 const fs = require('fs');
 const express = require('express');
 const concat = require('concat-stream');
@@ -23,6 +24,9 @@ const multerSetup = require('./multerSetup').default;
 
 // SETUP
 const app = express();
+
+// CORS SETUP
+app.use(cors());
 
 // PARSE!
 app.post('/parse', multerSetup, (req, res) => {
