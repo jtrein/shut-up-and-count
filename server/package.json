@@ -11,16 +11,22 @@
     "prestart": "npm run -s build",
     "start": "cross-env NODE_ENV=development node dist",
     "build": "babel src -s -d dist",
-    "pretest": "eslint ./ --ext=\".js\" --ignore-pattern=dist",
-    "test": "node test | tap-spec"
+    "lint": "eslint ./ --ext=\".js\"",
+    "test": "cross-env NODE_ENV=development istanbul cover test/index.spec.js | tap-spec"
   },
   "babel": {
     "presets": [
       "env"
     ]
   },
+  "eslintIgnore": [
+    "/coverage",
+    "/dist"
+  ],
   "dependencies": {
+    "concat-stream": "^1.6.1",
     "cors": "^2.8.4",
+    "end-of-stream": "^1.4.1",
     "express": "^4.16.2",
     "multer": "^1.3.0"
   },
@@ -31,6 +37,7 @@
     "eslint": "^4.18.2",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.7.0",
+    "istanbul": "^0.4.5",
     "supertest": "^3.0.0",
     "tap-spec": "^4.1.1",
     "tape": "^4.9.0"
