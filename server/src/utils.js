@@ -3,8 +3,25 @@ const eachWordCount = words => (
     const intoObject = Object.keys(acc).length ? acc : {};
     const value = (intoObject[next] ? intoObject[next] += 1 : 1);
 
-    // set value
-    intoObject[next] = value;
+/**
+ * eachWordCount
+ *
+ * @param  {arr}      words - array of strings
+ * @return {obj}      object with words as keys and occurrences as value
+ */
+const countOccurrence = (words) => {
+  const wordCountObject = {};
+  const wordsLength = words.length;
+  for (let i = 0; i < wordsLength; i += 1) {
+    const word = words[i];
+    if (wordCountObject[word]) {
+      wordCountObject[word] += 1;
+    } else {
+      wordCountObject[word] = 1;
+    }
+  }
+  return wordCountObject;
+};
 
     return intoObject;
   }, {})
