@@ -4,6 +4,10 @@
     "window": true,
     "document": true,
     "fetch": true,
-    "it": true
+    "it": true,
+    "test": true,
+    "describe": true,
+    "expect": true,
+    "jest": true
   }
 }
