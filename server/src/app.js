@@ -1,75 +1,70 @@
 const path = require('path');
 const fs = require('fs');
 const express = require('express');
-const multer = require('multer');
+const concat = require('concat-stream');
+const eos = require('end-of-stream');
 
 const {
-  ParseEachWordCount,
-  ParseTotalWordCount,
+  parseEachWordCount,
+  parseTotalWordCount,
 } = require('./parse');
 
 const {
-  ACCEPTED_CONTENT_TYPES,
   IS_DEV,
-  FILE_KEY,
-  MAX_FILE_SIZE,
   QUERY_EACH,
   QUERY_TOTAL,
 } = require('./settings');
 
+const {
+  handleStreamError,
+  handleOkResponse,
+} = require('./utils');
+const multerSetup = require('./multerSetup').default;
+
 // SETUP
 const app = express();
-const upload = multer({
-  dest: './tmp/',
-  limits: { fileSize: MAX_FILE_SIZE },
-}).single(FILE_KEY);
 
 // PARSE!
-app.post('/parse', upload, (req, res) => {
+app.post('/parse', multerSetup, (req, res) => {
+  const parseStreamDataAsJSON = (dataBuffer) => {
+    let dataToSend;
+    switch (req.query.type) {
+      case QUERY_EACH:
+        dataToSend = { eachWordCount: parseEachWordCount(dataBuffer) };
+        break;
+      case QUERY_TOTAL:
+        dataToSend = { totalWordCount: parseTotalWordCount(dataBuffer) };
+        break;
+      default:
+        dataToSend = {
+          eachWordCount: parseEachWordCount(dataBuffer),
+          totalWordCount: parseTotalWordCount(dataBuffer),
+        };
+    }
+
+    handleOkResponse(dataToSend, res);
+  };
+
   const fileLocation = path.resolve(req.file.path);
-
   const stream = fs.createReadStream(fileLocation);
-  const parseEachWord = new ParseEachWordCount();
-  const parseTotalWord = new ParseTotalWordCount();
+  // concat Buffers, then let garbage collection handle those departed...
+  const concatStream = concat(parseStreamDataAsJSON);
 
-  stream.on('error', () => {
-    res.status(500, 'Data read error. Really sorry.');
-    res.end();
-  });
+  stream.on('error', err => handleStreamError(err, res, fileLocation));
+  // go!
+  stream.pipe(concatStream);
 
-  res.writeHead(200, {
-    'Content-Type': 'application/json',
-  });
-
-  // process data & send response
-  switch (req.query.type) {
-    case QUERY_EACH:
-      stream
-        .pipe(parseEachWord)
-        .pipe(res);
-      break;
-    case QUERY_TOTAL:
-      stream
-        .pipe(parseTotalWord)
-        .pipe(res);
-      break;
-    default:
-      stream
-        .pipe(parseEachWord)
-        .pipe(parseTotalWord)
-        .pipe(res);
-  }
-
-  stream.on('end', () => {
-    // remove file
+  // end-of-stream helper instead of using .on('end')
+  eos(concatStream, (err) => {
     fs.unlink(fileLocation, () => {});
+    if (err) handleStreamError(err, res, fileLocation);
   });
 });
 
 // ERROR: just wanna log and pass it on.
 app.use((err, req, res, next) => {
   // eslint-disable-next-line no-console
-  if (IS_DEV) { console.error(err.stack); }
+  if (IS_DEV()) { console.error(err.stack); }
   next(err);
 });
 
