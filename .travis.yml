@@ -11,3 +11,4 @@ install:
 
 script:
   - cd ./server && yarn install && yarn test
+  - cd ../client && yarn install && yarn test
