@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { func } from 'prop-types';
 import Dropzone from 'react-dropzone';
 
 import { ALLOWED_MIME, MAX_FILE_SIZE } from '../settings';
@@ -9,7 +10,7 @@ class FileDropzone extends Component {
     super();
 
     this.state = {
-      files: [],
+      file: [],
       dropzoneActive: false,
     };
   }
@@ -26,24 +27,23 @@ class FileDropzone extends Component {
     });
   }
 
-  onDrop(acceptedFiles) {
+  onDrop(acceptedFile) {
     this.setState({
-      files: acceptedFiles,
+      file: acceptedFile,
       dropzoneActive: false,
-    });
+    }, this.props.onDropAccepted(acceptedFile));
   }
 
   render() {
-    const { files, dropzoneActive } = this.state;
+    const { file, dropzoneActive } = this.state;
+    const { name, size } = file.length ? file[0] : [];
 
     return (
       <Dropzone
         accept={ALLOWED_MIME}
         multiple={false}
         maxSize={MAX_FILE_SIZE}
-        onDrop={(acceptedFiles, rejectedFiles) => {
-          this.onDrop(acceptedFiles, rejectedFiles);
-        }}
+        onDrop={acceptedFile => this.onDrop(acceptedFile)}
         onDragEnter={() => this.onDragEnter()}
         onDragLeave={() => this.onDragLeave()}
         style={dropzoneStyles.dropzone}
@@ -51,13 +51,13 @@ class FileDropzone extends Component {
         {/* overlay */}
         { dropzoneActive && <div style={dropzoneStyles.overlay}>Go ahead, drop it!</div> }
 
-        {/* list files */}
-        {
-          files.map(({ name, size }) => (
-            <p key={`${name}-${size}`} style={dropzoneStyles.textHighlight}>
-              {name}
+        {/* file info */}
+        {file.length ?
+          (
+            <p style={dropzoneStyles.textHighlight}>
+              {name} &ndash; {Math.floor(size / 1024)}kb
             </p>
-          ))
+          ) : null
         }
 
         <p>Click or drop .txt files.</p>
@@ -66,5 +66,9 @@ class FileDropzone extends Component {
     );
   }
 }
+
+FileDropzone.propTypes = {
+  onDropAccepted: func.isRequired,
+};
 
 export default FileDropzone;
