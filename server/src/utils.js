@@ -1,7 +1,5 @@
-const eachWordCount = words => (
-  words.reduce((acc, next) => {
-    const intoObject = Object.keys(acc).length ? acc : {};
-    const value = (intoObject[next] ? intoObject[next] += 1 : 1);
+const fs = require('fs');
+const { IS_DEV } = require('./settings');
 
 /**
  * eachWordCount
@@ -36,9 +34,25 @@ const normalizeWords = wordString => (
   wordString.toLowerCase().match(/(([\w'])+?([0-9],[0-9])?([A-z]-[A-z])?)+/g)
 );
 
-const normalizeWords = wordString => wordString.match(/\w+/g);
+const handleOkResponse = (data, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(data);
+};
+
+const handleStreamError = (err, res, fileLocation) => {
+  if (IS_DEV()) {
+    res.status(500).json({ error: err.message }).end();
+    // eslint-disable-next-line no-console
+    console.error(err);
+  } else {
+    res.status(500).json({ error: 'Internal Server Error' }).end();
+  }
+  fs.unlink(fileLocation, () => {});
+};
 
 module.exports = {
-  eachWordCount,
+  countOccurrence,
+  handleOkResponse,
+  handleStreamError,
   normalizeWords,
 };
