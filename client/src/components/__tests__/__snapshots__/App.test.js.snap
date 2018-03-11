@@ -19,6 +19,7 @@ exports[`Snapshot: renders as expected 1`] = `
   <Header />
   <FileDropzone
     onDropAccepted={[Function]}
+    onDropRejected={[Function]}
   />
   <BigButton
     disabled={true}

@@ -5,6 +5,8 @@ import Dropzone from 'react-dropzone';
 import { ALLOWED_MIME, MAX_FILE_SIZE } from '../settings';
 import dropzoneStyles from '../styles/FileDropzone.styles';
 
+const getApproxFileSize = kb => (kb < 1 ? '~1' : kb);
+
 class FileDropzone extends Component {
   constructor() {
     super();
@@ -31,7 +33,19 @@ class FileDropzone extends Component {
     this.setState({
       file: acceptedFile,
       dropzoneActive: false,
-    }, this.props.onDropAccepted(acceptedFile));
+    }, () => {
+      if (acceptedFile.length) this.props.onDropAccepted(acceptedFile);
+    });
+  }
+
+  onDropRejected(rejectedFile) {
+    const { size, type } = rejectedFile[0];
+    if (size > MAX_FILE_SIZE) {
+      this.props.onDropRejected('size');
+    }
+    if (type !== ALLOWED_MIME) {
+      this.props.onDropRejected('type');
+    }
   }
 
   render() {
@@ -44,6 +58,7 @@ class FileDropzone extends Component {
         multiple={false}
         maxSize={MAX_FILE_SIZE}
         onDrop={acceptedFile => this.onDrop(acceptedFile)}
+        onDropRejected={rejectedFile => this.onDropRejected(rejectedFile)}
         onDragEnter={() => this.onDragEnter()}
         onDragLeave={() => this.onDragLeave()}
         style={dropzoneStyles.dropzone}
@@ -55,7 +70,7 @@ class FileDropzone extends Component {
         {file.length ?
           (
             <p style={dropzoneStyles.textHighlight}>
-              {name} &ndash; {Math.floor(size / 1024)}kb
+              {name} &ndash; {getApproxFileSize(Math.floor(size / 1024))}kb
             </p>
           ) : null
         }
@@ -69,6 +84,7 @@ class FileDropzone extends Component {
 
 FileDropzone.propTypes = {
   onDropAccepted: func.isRequired,
+  onDropRejected: func.isRequired,
 };
 
 export default FileDropzone;

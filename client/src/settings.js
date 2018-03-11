@@ -1,6 +1,8 @@
 export const ALLOWED_MIME = 'text/plain';
 export const API_HOST = process.env.API_HOST || 'http://localhost';
 export const API_PORT = process.env.API_PORT || 4000;
+export const ERR_FILE_SIZE = 'File is too big.';
+export const ERR_FILE_TYPE = 'File is not a .txt file.';
 export const MAX_FILE_SIZE = 10 * 1024 * 1024;
 export const MSG_SERVER_ERR = 'Sorry, it appears our server is gone.';
 export const PARSE_ENDPOINT = `${API_HOST}:${API_PORT}/parse`;

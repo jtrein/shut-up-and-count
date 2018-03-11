@@ -3,6 +3,7 @@
 exports[`Snapshot: renders as expected 1`] = `
 <FileDropzone
   onDropAccepted={[Function]}
+  onDropRejected={[Function]}
 >
   <t
     accept="text/plain"
@@ -15,6 +16,7 @@ exports[`Snapshot: renders as expected 1`] = `
     onDragEnter={[Function]}
     onDragLeave={[Function]}
     onDrop={[Function]}
+    onDropRejected={[Function]}
     preventDropOnDocument={true}
     style={
       Object {
