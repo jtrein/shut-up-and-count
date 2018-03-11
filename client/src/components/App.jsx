@@ -4,7 +4,7 @@ import { Column, Table } from 'react-virtualized';
 import Snackbar from 'material-ui/Snackbar';
 import 'react-virtualized/styles.css';
 
-import { MSG_SERVER_ERR } from '../settings';
+import { ERR_FILE_SIZE, ERR_FILE_TYPE, MSG_SERVER_ERR } from '../settings';
 import postTextFile from '../api';
 import BigButton from './BigButton';
 import FileDropzone from './FileDropzone';
@@ -29,20 +29,17 @@ class App extends Component {
     };
   }
 
-  componentDidUpdate() {
-    if (this.table) {
-      const element = document.getElementById(this.table.props.id);
-      // testing inside CRA can't access headless browser
-      if (element) document.getElementById(this.table.props.id).scrollIntoView();
-    }
-  }
-
   getTable(ref) {
     this.table = ref;
   }
 
   handleDropAccepted(file) {
     this.setState({ isButtonDisabled: false, fileToSend: file });
+  }
+
+  handleDropRejected(reason) {
+    const error = reason === 'size' ? ERR_FILE_SIZE : ERR_FILE_TYPE;
+    this.setState({ error, data: {}, isButtonDisabled: true });
   }
 
   handleHideError() {
@@ -60,11 +57,25 @@ class App extends Component {
           throw Error(data.error);
         }
 
-        this.setState({ data: data || {}, progress: false });
+        this.setState({ data, progress: false });
+
+        // scroll results into view
+        this.scrollToTable();
       })
       .catch((e) => {
-        this.setState({ error: e.message || MSG_SERVER_ERR, progress: false });
+        this.setState({
+          error: e.message || MSG_SERVER_ERR,
+          isButtonDisabled: true,
+          progress: false,
+        });
       });
+  }
+
+  scrollToTable() {
+    if (this.table) {
+      const element = document.getElementById(this.table.props.id);
+      if (element) element.scrollIntoView();
+    }
   }
 
   render() {
@@ -81,7 +92,10 @@ class App extends Component {
       <div style={styles.wrap}>
         <Header />
 
-        <FileDropzone onDropAccepted={file => this.handleDropAccepted(file)} />
+        <FileDropzone
+          onDropAccepted={file => this.handleDropAccepted(file)}
+          onDropRejected={reason => this.handleDropRejected(reason)}
+        />
 
         {/* upload & parse */}
         <BigButton disabled={isButtonDisabled} onClick={() => this.handlePostFile()} />

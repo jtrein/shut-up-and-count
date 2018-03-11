@@ -8,6 +8,7 @@ import toJSON from 'enzyme-to-json';
 
 import MockFetch from '../../__mocks__/fetch';
 import App from '../App';
+import FileDropzone from '../FileDropzone';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -131,9 +132,17 @@ test('Table can show text before table', () => {
 
 test('handleDropAccepted can set proper state', () => {
   const wrapper = mount(<App />);
-  wrapper.find('FileDropzone').simulate('drop');
-  expect(wrapper.state().fileToSend).toEqual([]);
+  wrapper.find(FileDropzone).instance().onDrop([{ name: 'hi', size: 123456 }]);
+  expect(wrapper.state().fileToSend).toEqual([{ name: 'hi', size: 123456 }]);
   expect(wrapper.state().isButtonDisabled).toBe(false);
+  expect(Object.keys(wrapper.state().data).length).toBe(0);
+});
+
+test('handleDropRejected can receive a file drop error', () => {
+  const wrapper = mount(<App />);
+  wrapper.find(FileDropzone).instance().onDropRejected([{ type: 'text/plain', size: 123123123123123 }]);
+  expect(wrapper.state().error).toEqual('File is too big.');
+  expect(wrapper.state().isButtonDisabled).toBe(true);
 });
 
 test('Snapshot: renders as expected', () => {
