@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import Spinner from 'react-spinkit';
 import { Column, Table } from 'react-virtualized';
 import Snackbar from 'material-ui/Snackbar';
@@ -27,6 +27,18 @@ class App extends Component {
       isButtonDisabled: true,
       progress: false,
     };
+  }
+
+  componentDidUpdate() {
+    if (this.table) {
+      const element = document.getElementById(this.table.props.id);
+      // testing inside CRA can't access headless browser
+      if (element) document.getElementById(this.table.props.id).scrollIntoView();
+    }
+  }
+
+  getTable(ref) {
+    this.table = ref;
   }
 
   handleDropAccepted(file) {
@@ -77,36 +89,40 @@ class App extends Component {
         {/* progress */}
         { progress && !error && <Spinner name="triangle-skew-spin" color="#662e91" /> }
 
-        {
-          wordsList.length ? (
-            <div style={styles.tableWrap}>
-              <p style={styles.totalWordCount}>
-                Total word count: <b>{data.totalWordCount}</b>
-              </p>
+        <div id="table" style={styles.tableWrap}>
+          {
+            wordsList.length ? (
+              <Fragment>
+                <p style={styles.totalWordCount}>
+                  Total word count: <b>{data.totalWordCount}</b>
+                </p>
 
-              <Table
-                width={500}
-                height={500}
-                headerHeight={20}
-                rowHeight={30}
-                rowCount={wordsList.length}
-                rowGetter={({ index }) => rowGetter(index, wordsList)}
-                rowStyle={styles.tableRow}
-              >
-                <Column
-                  label="Word"
-                  dataKey="word"
-                  width={450}
-                />
-                <Column
-                  width={200}
-                  label="Occurrences"
-                  dataKey="occurrences"
-                />
-              </Table>
-            </div>
-          ) : null
-        }
+                <Table
+                  id="table"
+                  ref={table => this.getTable(table)}
+                  width={500}
+                  height={500}
+                  headerHeight={20}
+                  rowHeight={30}
+                  rowCount={wordsList.length}
+                  rowGetter={({ index }) => rowGetter(index, wordsList)}
+                  rowStyle={styles.tableRow}
+                >
+                  <Column
+                    label="Word"
+                    dataKey="word"
+                    width={450}
+                  />
+                  <Column
+                    width={200}
+                    label="Occurrences"
+                    dataKey="occurrences"
+                  />
+                </Table>
+              </Fragment>
+            ) : null
+          }
+        </div>
 
         {/* server error notify */}
         <Snackbar
