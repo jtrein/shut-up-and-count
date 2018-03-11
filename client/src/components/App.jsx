@@ -29,14 +29,6 @@ class App extends Component {
     };
   }
 
-  componentDidUpdate() {
-    if (this.table) {
-      const element = document.getElementById(this.table.props.id);
-      // testing inside CRA can't access headless browser
-      if (element) document.getElementById(this.table.props.id).scrollIntoView();
-    }
-  }
-
   getTable(ref) {
     this.table = ref;
   }
@@ -65,7 +57,10 @@ class App extends Component {
           throw Error(data.error);
         }
 
-        this.setState({ data: data || {}, progress: false });
+        this.setState({ data, progress: false });
+
+        // scroll results into view
+        this.scrollToTable();
       })
       .catch((e) => {
         this.setState({
@@ -74,6 +69,13 @@ class App extends Component {
           progress: false,
         });
       });
+  }
+
+  scrollToTable() {
+    if (this.table) {
+      const element = document.getElementById(this.table.props.id);
+      if (element) element.scrollIntoView();
+    }
   }
 
   render() {
