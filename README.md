@@ -10,13 +10,10 @@ To quickly test and run the project locally, copy+paste this full command:
 
 ```sh
 git clone git@github.com:jtrein/shut-up-and-count.git
-cd ./shut-up-and-count
-cd ./client
-npm install
-cd ../server
+cd ./shut-up-and-count/server
 npm install && npm test
 cd ../client
-npm test
+npm install && npm test
 cd ../server
 npm start
 echo "Servers started."
