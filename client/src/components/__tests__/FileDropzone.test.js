@@ -4,6 +4,7 @@ import { render, unmountComponentAtNode } from 'react-dom';
 import Enzyme, { mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import Dropzone from 'react-dropzone';
+import toJSON from 'enzyme-to-json';
 
 import FileDropzone from '../FileDropzone';
 import { ALLOWED_MIME, MAX_FILE_SIZE } from '../../settings';
@@ -66,4 +67,9 @@ test('proper state changes on drop', () => {
   wrapper.simulate('drop');
   expect(wrapper.state().dropzoneActive).toBe(false);
   expect(spy.mock.calls.length).toBe(1);
+});
+
+test('Snapshot: renders as expected', () => {
+  const wrapper = mount(<FileDropzone onDropAccepted={() => {}} />);
+  expect(toJSON(wrapper)).toMatchSnapshot();
 });

@@ -3,6 +3,7 @@ import React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 import Enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
+import toJSON from 'enzyme-to-json';
 
 import BigButton from '../BigButton';
 
@@ -35,4 +36,9 @@ test('button calls onClick once when clicked', () => {
   const wrapper = shallow(<BigButton onClick={spy} />);
   wrapper.find('button').simulate('click');
   expect(spy.mock.calls.length).toEqual(1);
+});
+
+test('Snapshot: renders as expected', () => {
+  const wrapper = shallow(<BigButton onClick={() => {}} />);
+  expect(toJSON(wrapper)).toMatchSnapshot();
 });

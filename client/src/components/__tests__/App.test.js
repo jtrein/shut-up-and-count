@@ -4,6 +4,7 @@ import { render, unmountComponentAtNode } from 'react-dom';
 import Enzyme, { mount, shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import Snackbar from 'material-ui/Snackbar';
+import toJSON from 'enzyme-to-json';
 
 import MockFetch from '../../__mocks__/fetch';
 import App from '../App';
@@ -133,4 +134,9 @@ test('handleDropAccepted can set proper state', () => {
   wrapper.find('FileDropzone').simulate('drop');
   expect(wrapper.state().fileToSend).toEqual([]);
   expect(wrapper.state().isButtonDisabled).toBe(false);
+});
+
+test('Snapshot: renders as expected', () => {
+  const wrapper = shallow(<App />);
+  expect(toJSON(wrapper)).toMatchSnapshot();
 });
