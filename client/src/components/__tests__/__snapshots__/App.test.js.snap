@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Snapshot: renders as expected 1`] = `
+<div
+  style={
+    Object {
+      "alignItems": "center",
+      "bottom": 0,
+      "display": "flex",
+      "flexDirection": "column",
+      "justifyContent": "center",
+      "left": 0,
+      "marginTop": 24,
+      "right": 0,
+      "top": 0,
+    }
+  }
+>
+  <Header />
+  <FileDropzone
+    onDropAccepted={[Function]}
+  />
+  <BigButton
+    disabled={true}
+    onClick={[Function]}
+  />
+  <div
+    id="table"
+    style={
+      Object {
+        "marginTop": 48,
+      }
+    }
+  />
+  <WithStyles(Snackbar)
+    autoHideDuration={3000}
+    message=""
+    onClose={[Function]}
+    open={false}
+  />
+</div>
+`;

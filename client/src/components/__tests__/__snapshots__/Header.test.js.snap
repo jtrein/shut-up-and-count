@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Snapshot: renders as expected 1`] = `
+<header>
+  <img
+    alt="logo"
+    src="logo.svg"
+    style={
+      Object {
+        "maxWidth": "100%",
+        "width": 250,
+      }
+    }
+  />
+  <h1
+    style={
+      Object {
+        "clip": "rect(1px, 1px, 1px, 1px)",
+        "height": "1px",
+        "overflow": "hidden",
+        "position": "absolute",
+        "width": "1px",
+      }
+    }
+  >
+    Shut Up and Count
+  </h1>
+</header>
+`;

@@ -1,0 +1,74 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Snapshot: renders as expected 1`] = `
+<FileDropzone
+  onDropAccepted={[Function]}
+>
+  <t
+    accept="text/plain"
+    disableClick={false}
+    disablePreview={false}
+    disabled={false}
+    maxSize={10485760}
+    minSize={0}
+    multiple={false}
+    onDragEnter={[Function]}
+    onDragLeave={[Function]}
+    onDrop={[Function]}
+    preventDropOnDocument={true}
+    style={
+      Object {
+        "border": "10px dashed #EEE",
+        "fontSize": 24,
+        "fontWeight": 700,
+        "margin": 24,
+        "maxWidth": 500,
+        "padding": 72,
+        "textAlign": "center",
+      }
+    }
+  >
+    <div
+      aria-disabled={false}
+      className=""
+      onClick={[Function]}
+      onDragEnter={[Function]}
+      onDragLeave={[Function]}
+      onDragOver={[Function]}
+      onDragStart={[Function]}
+      onDrop={[Function]}
+      style={
+        Object {
+          "border": "10px dashed #EEE",
+          "fontSize": 24,
+          "fontWeight": 700,
+          "margin": 24,
+          "maxWidth": 500,
+          "padding": 72,
+          "textAlign": "center",
+        }
+      }
+    >
+      <p>
+        Click or drop .txt files.
+      </p>
+      <small>
+        (max size is 10MB)
+      </small>
+      <input
+        accept="text/plain"
+        autoComplete="off"
+        disabled={false}
+        multiple={false}
+        onChange={[Function]}
+        style={
+          Object {
+            "display": "none",
+          }
+        }
+        type="file"
+      />
+    </div>
+  </t>
+</FileDropzone>
+`;
