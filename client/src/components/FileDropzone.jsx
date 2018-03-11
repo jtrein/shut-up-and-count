@@ -33,7 +33,19 @@ class FileDropzone extends Component {
     this.setState({
       file: acceptedFile,
       dropzoneActive: false,
-    }, this.props.onDropAccepted(acceptedFile));
+    }, () => {
+      if (acceptedFile.length) this.props.onDropAccepted(acceptedFile);
+    });
+  }
+
+  onDropRejected(rejectedFile) {
+    const { size, type } = rejectedFile[0];
+    if (size > MAX_FILE_SIZE) {
+      this.props.onDropRejected('size');
+    }
+    if (type !== ALLOWED_MIME) {
+      this.props.onDropRejected('type');
+    }
   }
 
   render() {
@@ -46,6 +58,7 @@ class FileDropzone extends Component {
         multiple={false}
         maxSize={MAX_FILE_SIZE}
         onDrop={acceptedFile => this.onDrop(acceptedFile)}
+        onDropRejected={rejectedFile => this.onDropRejected(rejectedFile)}
         onDragEnter={() => this.onDragEnter()}
         onDragLeave={() => this.onDragLeave()}
         style={dropzoneStyles.dropzone}
@@ -71,6 +84,7 @@ class FileDropzone extends Component {
 
 FileDropzone.propTypes = {
   onDropAccepted: func.isRequired,
+  onDropRejected: func.isRequired,
 };
 
 export default FileDropzone;
