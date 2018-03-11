@@ -5,6 +5,8 @@ import Dropzone from 'react-dropzone';
 import { ALLOWED_MIME, MAX_FILE_SIZE } from '../settings';
 import dropzoneStyles from '../styles/FileDropzone.styles';
 
+const getApproxFileSize = kb => (kb < 1 ? '~1' : kb);
+
 class FileDropzone extends Component {
   constructor() {
     super();
@@ -55,7 +57,7 @@ class FileDropzone extends Component {
         {file.length ?
           (
             <p style={dropzoneStyles.textHighlight}>
-              {name} &ndash; {Math.floor(size / 1024)}kb
+              {name} &ndash; {getApproxFileSize(Math.floor(size / 1024))}kb
             </p>
           ) : null
         }
