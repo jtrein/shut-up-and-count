@@ -4,7 +4,7 @@ import { Column, Table } from 'react-virtualized';
 import Snackbar from 'material-ui/Snackbar';
 import 'react-virtualized/styles.css';
 
-import { MSG_SERVER_ERR } from '../settings';
+import { ERR_FILE_SIZE, ERR_FILE_TYPE, MSG_SERVER_ERR } from '../settings';
 import postTextFile from '../api';
 import BigButton from './BigButton';
 import FileDropzone from './FileDropzone';
@@ -45,6 +45,11 @@ class App extends Component {
     this.setState({ isButtonDisabled: false, fileToSend: file });
   }
 
+  handleDropRejected(reason) {
+    const error = reason === 'size' ? ERR_FILE_SIZE : ERR_FILE_TYPE;
+    this.setState({ error, data: {}, isButtonDisabled: true });
+  }
+
   handleHideError() {
     this.setState({ error: '' });
   }
@@ -63,7 +68,11 @@ class App extends Component {
         this.setState({ data: data || {}, progress: false });
       })
       .catch((e) => {
-        this.setState({ error: e.message || MSG_SERVER_ERR, progress: false });
+        this.setState({
+          error: e.message || MSG_SERVER_ERR,
+          isButtonDisabled: true,
+          progress: false,
+        });
       });
   }
 
@@ -81,7 +90,10 @@ class App extends Component {
       <div style={styles.wrap}>
         <Header />
 
-        <FileDropzone onDropAccepted={file => this.handleDropAccepted(file)} />
+        <FileDropzone
+          onDropAccepted={file => this.handleDropAccepted(file)}
+          onDropRejected={reason => this.handleDropRejected(reason)}
+        />
 
         {/* upload & parse */}
         <BigButton disabled={isButtonDisabled} onClick={() => this.handlePostFile()} />
