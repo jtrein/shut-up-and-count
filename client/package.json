@@ -7,7 +7,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "pretest": "eslint ./ --ext=\".js\"",
-    "test": "CI=true react-scripts test --env=jsdom",
+    "test": "CI=true react-scripts test --env=jsdom --coverage",
     "eject": "react-scripts eject"
   },
   "dependencies": {
