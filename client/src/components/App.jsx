@@ -98,7 +98,11 @@ class App extends Component {
         />
 
         {/* upload & parse */}
-        <BigButton disabled={isButtonDisabled} onClick={() => this.handlePostFile()} />
+        <BigButton
+          disabled={isButtonDisabled}
+          onClick={() => this.handlePostFile()}
+          text="Count the words."
+        />
 
         {/* progress */}
         { progress && !error && <Spinner name="triangle-skew-spin" color="#662e91" /> }

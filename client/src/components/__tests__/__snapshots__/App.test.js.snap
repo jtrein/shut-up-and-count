@@ -24,6 +24,7 @@ exports[`Snapshot: renders as expected 1`] = `
   <BigButton
     disabled={true}
     onClick={[Function]}
+    text="Count the words."
   />
   <div
     id="table"
